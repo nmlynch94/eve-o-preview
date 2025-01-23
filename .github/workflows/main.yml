@@ -1,39 +1,32 @@
-name: Build .NET Framework 4.5
+name: Build with Cake
 
 on:
+  push:
+    branches:
+      - linux-build
+  pull_request:
+    branches:
+      - linux-build
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build .NET Framework 4.5
-    runs-on: windows-2019
+    runs-on: ubuntu-latest
 
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Setup MSBuild
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
-
-      # Setup NuGet
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1
-
-      # Restore NuGet packages
-      - name: Restore NuGet packages
-        run: nuget restore src/EVE-O-Preview.sln
-
-      # Build the project
-      - name: Build solution
-        run: msbuild src/EVE-O-Preview.sln /p:Configuration=Release
-
-      # Optional: Publish artifacts
-      - name: Publish artifacts
-        if: success()
-        uses: actions/upload-artifact@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
         with:
-          name: build-output
-          path: |
-            **/bin/Release/
+          dotnet-version: '6.0.x'  # Adjust this to your target .NET version
+
+      - name: Install Cake Tool
+        run: dotnet tool install --global Cake.Tool
+
+      - name: Restore Cake tools
+        run: dotnet cake --version
+
+      - name: Run Cake build
+        run: dotnet cake build.cake --target=Default
