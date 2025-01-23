@@ -6,11 +6,16 @@ on:
 jobs:
   build:
     name: Build .NET Framework 4.5
-    runs-on: windows-2022
+    runs-on: windows-2019
     steps:
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Install .NET Framework 4.5 Developer Pack
+        run: |
+          choco install netfx-4.5.2-devpack --yes
+        shell: powershell
 
             # Setup .NET 8 SDK
       - name: Setup .NET 8 SDK
