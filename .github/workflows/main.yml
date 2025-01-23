@@ -1,18 +1,18 @@
-name: Build .NET Framework 4.5
+name: Build .NET Framework 4.8
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build .NET Framework 4.5
+    name: Build .NET Framework 4.8
     runs-on: windows-2019
     steps:
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install .NET Framework 4.5 Developer Pack
+      - name: Install .NET Framework 4.8 Developer Pack
         run: |
           choco install netfx-4.8-devpack --yes
         shell: powershell
@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET 8 SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.x' # Install .NET 8 SDK
+          dotnet-version: '8.0.0' # Install .NET 8 SDK
 
       # Restore and Build .NET 8 Project
       - name: Restore and Build .NET 8 project
