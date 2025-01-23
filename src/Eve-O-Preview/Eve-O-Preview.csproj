@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>EveOPreview</RootNamespace>
     <AssemblyName>EVE-O-Preview</AssemblyName>
-    <TargetFrameworkVersion>net8.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
@@ -229,6 +229,10 @@
   <ItemGroup>
     <PackageReference Include="Costura.Fody">
       <Version>3.3.2</Version>
+    </PackageReference>
+      <Version>4.0.2</Version>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Fody" Version="6.8.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
