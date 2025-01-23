@@ -1,6 +1,9 @@
 name: Build .NET Framework 4.8
 
 on:
+  push:
+    branches:
+      - linux-build
   workflow_dispatch:
 
 jobs:
