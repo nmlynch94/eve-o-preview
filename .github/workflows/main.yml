@@ -29,6 +29,7 @@ jobs:
       # Restore and Build .NET 8 Project
       - name: Restore and Build .NET 8 project
         run: |
+          dotnet add package System.Resources.Extensions --version 8.0.0
           dotnet restore src/EVE-O-Preview.sln
           dotnet build src/EVE-O-Preview.sln --configuration Release
           
