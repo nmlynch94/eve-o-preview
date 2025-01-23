@@ -21,8 +21,8 @@ jobs:
       # Restore and Build .NET 8 Project
       - name: Restore and Build .NET 8 project
         run: |
-          dotnet restore YourDotNet8Project.sln
-          dotnet build YourDotNet8Project.sln --configuration Release
+          dotnet restore src/EVE-O-Preview.sln
+          dotnet build src/EVE-O-Preview.sln --configuration Release
           
       # Optional: Publish artifacts
       - name: Publish artifacts
