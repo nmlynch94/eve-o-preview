@@ -21,7 +21,7 @@ jobs:
       - name: Setup .NET 8 SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '8.0.0' # Install .NET 8 SDK
+          dotnet-version: '8.0.x' # Install .NET 8 SDK
 
       # Restore and Build .NET 8 Project
       - name: Restore and Build .NET 8 project
