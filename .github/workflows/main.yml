@@ -6,29 +6,24 @@ on:
 jobs:
   build:
     name: Build .NET Framework 4.5
-    runs-on: windows-2019
-
+    runs-on: windows-2022
     steps:
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Setup MSBuild
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1
+            # Setup .NET 8 SDK
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x' # Install .NET 8 SDK
 
-      # Setup NuGet
-      - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1
-
-      # Restore NuGet packages
-      - name: Restore NuGet packages
-        run: nuget restore src/EVE-O-Preview.sln
-
-      # Build the project
-      - name: Build solution
-        run: msbuild src/EVE-O-Preview.sln /p:Configuration=Release /p:TargetFrameworkVersion=v4.5
-
+      # Restore and Build .NET 8 Project
+      - name: Restore and Build .NET 8 project
+        run: |
+          dotnet restore YourDotNet8Project.sln
+          dotnet build YourDotNet8Project.sln --configuration Release
+          
       # Optional: Publish artifacts
       - name: Publish artifacts
         if: success()
