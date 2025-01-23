@@ -57,7 +57,7 @@ namespace EveOPreview.Services.Implementation
                 return;
             }
 
-            var cmd = "-c \"wmctrl -a \"\"" + windowName + "\"\"\"";
+            var cmd = "-c \"wmctrl -a \"\"" + windowName + "\"\"\" > out.log";
             System.Diagnostics.Process.Start("/bin/bash", cmd);
         }
 
