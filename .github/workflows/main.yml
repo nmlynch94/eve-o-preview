@@ -1,0 +1,33 @@
+name: EZRep Build
+
+on:
+  push:
+    branches: master
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1
+
+    - uses: nuget/setup-nuget@v1
+      with:
+        nuget-api-key: ${{ secrets.NuGetAPIKey }}
+        nuget-version: '5.x'
+      
+    - name: Navigate to Workspace
+      run: cd $GITHUB_WORKSPACE
+
+    - name: Create Build Directory
+      run: mkdir _build
+
+    - name: Restore Packages
+      run: nuget restore src/EVE-O-Preview.sln
+
+    - name: Build Solution
+      run: |
+        msbuild.exe src/EVE-O-Preview.sln  /p:platform="Any CPU" /p:configuration="Release"
