@@ -3,6 +3,7 @@ name: Eve-O Preview Release
 on:
   release:
     types: [published]
+  workflow_dispatch:
 
 jobs:
   release:
@@ -35,13 +36,10 @@ jobs:
       - name: Create archive
         run: |
           Compress-Archive -Path "Eve-O-Preview-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}\\*" -Destination "Release-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}.zip"
-      - name: Upload Asset
-        id: upload-release-client-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload All Files
+        uses: actions/upload-artifact@v4
         with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: "Release-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}.zip"
-          asset_name: "Release-${{ github.event.release.tag_name }}-${{ matrix.platform.name }}.zip"
-          asset_content_type: application/zip
+          name: repository-files  # Name of the artifact
+          path: .  # Uploads all files and directories
+          if-no-files-found: warn  # Warn if no files are found
+          retention-days: 7
