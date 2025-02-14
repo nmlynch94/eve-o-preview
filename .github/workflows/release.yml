@@ -1,8 +1,9 @@
 name: Eve-O Preview Release
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - unified-source-build
   workflow_dispatch:
 
 jobs:
