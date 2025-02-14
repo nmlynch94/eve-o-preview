@@ -133,36 +133,20 @@ namespace EveOPreview.Services.Implementation
 				return;
 			}
 
-            System.Diagnostics.ProcessStartInfo processStartInfo = null; 
+            string? cmd = null; 
 			try
 			{
+				WriteToLog(windowName);
                 // If we are in a flatpak, then use flatpak-spawn to run wmctrl outside the sandbox
-                if (Environment.GetEnvironmentVariable("container") == "flatpak")
-                {
-					
-					processStartInfo = new System.Diagnostics.ProcessStartInfo
-					{
-						FileName = "flatpak-spawn",
-						Arguments = $"--host wmctrl -a {windowName}",
-						UseShellExecute = false,
-						CreateNoWindow = false
-					};
-                } 
-                else 
-                {
-					processStartInfo = new System.Diagnostics.ProcessStartInfo
-					{
-						FileName = "wmctrl",
-						Arguments = $"-a {windowName}",
-						UseShellExecute = false,
-						CreateNoWindow = false
-					};
-                }
-
-				using (var process = System.Diagnostics.Process.Start(processStartInfo))
+				if (Environment.GetEnvironmentVariable("container") == "flatpak")
 				{
-					process.WaitForExit();
+					cmd = "-c \"flatpak-spawn --host wmctrl -a \"\"" + windowName + "\"\"\"";
+				} 
+				else 
+				{
+					cmd = "-c \"wmctrl -a \"\"" + windowName + "\"\"\"";
 				}
+				System.Diagnostics.Process.Start("/bin/bash", cmd);
 			}
 			catch (Exception ex)
 			{
