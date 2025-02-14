@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 using EveOPreview.Configuration;
 using EveOPreview.Services.Interop;
 
@@ -133,40 +134,26 @@ namespace EveOPreview.Services.Implementation
 				return;
 			}
 
-            System.Diagnostics.ProcessStartInfo processStartInfo = null; 
+			var processStartInfo = new ProcessStartInfo();
+			processStartInfo.FileName = "/bin/bash";
+			processStartInfo.RedirectStandardOutput = false;		
+			processStartInfo.RedirectStandardError = false;
+			processStartInfo.UseShellExecute = true;
+			processStartInfo.CreateNoWindow = true;
+
 			try
 			{
                 // If we are in a flatpak, then use flatpak-spawn to run wmctrl outside the sandbox
                 if (Environment.GetEnvironmentVariable("container") == "flatpak")
                 {
-					
-					processStartInfo = new System.Diagnostics.ProcessStartInfo
-					{
-						FileName = "/usr/bin/flatpak-spawn",
-						Arguments = $"--host \"mctrl -a \'{windowName}\'\"",
-						UseShellExecute = false,
-						CreateNoWindow = false
-					};
-                } 
-                else 
-                {
-					processStartInfo = new System.Diagnostics.ProcessStartInfo
-					{
-						FileName = "wmctrl",
-						Arguments = $"-a \"{windowName}\"",
-						UseShellExecute = false,
-						CreateNoWindow = false
-					};
-                }
-
-				using (var process = System.Diagnostics.Process.Start(processStartInfo))
-				{
-					process.WaitForExit();
+					processStartInfo.Arguments = "pwd > tessts.log";
 				}
+				using var process = Process.Start(processStartInfo);
+				process.WaitForExit();
 			}
 			catch (Exception ex)
 			{
-				WriteToLog($"[{DateTime.Now}] executing wmctrl - Exception: {ex.Message}");
+				WriteToLog($"[{DateTime.Now}] executing wmctrl - Exception: {ex.Message} {ex.StackTrace}");
 			}
 		}
 

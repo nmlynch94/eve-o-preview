@@ -40,6 +40,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "repository-files-${{matrix.platform.name}}"  # Name of the artifact
-          path: .  # Uploads all files and directories
+          path: Release--Linux.zip  # Uploads all files and directories
           if-no-files-found: warn  # Warn if no files are found
           retention-days: 7
